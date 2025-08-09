@@ -1,0 +1,57 @@
+<!-- client/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LandSure - Certificate Upload</title>
+</head>
+<body>
+  <h2>Upload Land Certificate</h2>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="image" required />
+    <button type="submit">Upload & Verify</button>
+  </form>
+
+  <div id="extractedData"></div>
+<button id="verifyBtn" style="display:none;">Submit for Verification</button>
+<div id="verificationResult"></div>
+
+
+  <script>
+  let extractedData = null;
+
+  const form = document.getElementById('uploadForm');
+  const resultDiv = document.getElementById('extractedData');
+  const verifyBtn = document.getElementById('verifyBtn');
+  const verifyResult = document.getElementById('verificationResult');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const res = await fetch('http://localhost:5001/ocr', {
+      method: 'POST',
+      body: formData
+    });
+    extractedData = await res.json();
+
+    resultDiv.innerHTML = `<pre>${JSON.stringify(extractedData, null, 2)}</pre>`;
+    verifyBtn.style.display = 'block';
+  });
+
+  verifyBtn.addEventListener('click', async () => {
+    const res = await fetch('http://localhost:3000/certificates/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(extractedData)
+    });
+    const data = await res.json();
+    verifyResult.innerHTML = data.verified
+      ? `<span style="color: green;">✅ Verified Certificate</span><pre>${JSON.stringify(data.data, null, 2)}</pre>`
+      : `<span style="color: red;">❌ Fraudulent or Tampered Document</span>`;
+  });
+</script>
+
+</body>
+</html>
