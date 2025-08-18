@@ -7,49 +7,81 @@ describe("LandSure", function () {
   let otherAccount;
 
   beforeEach(async function () {
-    // Deploy the contract before each test
     [owner, otherAccount] = await ethers.getSigners();
     const LandSure = await ethers.getContractFactory("LandSure");
     landSure = await LandSure.deploy();
+    await landSure.waitForDeployment();
   });
 
   it("Should allow an owner to register a new certificate", async function () {
-    const certificateId = 123;
-    const ownerName = "John Doe";
-    const landLocation = "123 Main Street";
-    const landArea = 5000; // in square feet
+    const certId = "SHAIK2109C-119-11";
+    const totalArea = "5000 sqft";
+    const numTokens = 2;
+    const hash = ethers.keccak256(ethers.toUtf8Bytes("dummy metadata"));
 
-    // Call the registerCertificate function
-    await landSure.registerCertificate(certificateId, ownerName, landLocation, landArea);
+    // Call the transaction
+    const tx = await landSure.registerCertificate(
+      certId,
+      owner.address,
+      totalArea,
+      numTokens,
+      hash
+    );
 
-    // Verify that the certificate was registered correctly
-    const certificate = await landSure.certificates(certificateId);
-    expect(certificate.certificateId).to.equal(certificateId);
-    expect(certificate.ownerName).to.equal(ownerName);
-    expect(certificate.landLocation).to.equal(landLocation);
-    expect(certificate.landArea).to.equal(landArea);
+    // Wait for the transaction to be mined
+    await tx.wait();
+
+    // Fetch the certificate details using the getCertificate view function
+    const [id, mainOwner, area, tokensCount, certHash, tokenIds] =
+      await landSure.getCertificate(certId);
+
+    // Assertions
+    expect(id).to.equal(certId);
+    expect(mainOwner).to.equal(owner.address);
+    expect(area).to.equal(totalArea);
+    expect(tokensCount).to.equal(numTokens);
+    expect(certHash).to.equal(hash);
+    expect(tokenIds.length).to.equal(numTokens);
   });
 
-  it("Should map the certificate ID to the owner's address", async function () {
-    const certificateId = 123;
-    const ownerName = "John Doe";
-    const landLocation = "123 Main Street";
-    const landArea = 5000;
+  it("Should map tokens to owner correctly", async function () {
+    const certId = "CERT-123";
+    const totalArea = "123 Main Street";
+    const numTokens = 1;
+    const hash = ethers.keccak256(ethers.toUtf8Bytes("something"));
 
-    await landSure.registerCertificate(certificateId, ownerName, landLocation, landArea);
-
-    // Check the ownerToCertificate mapping
-    expect(await landSure.ownerToCertificate(owner.address)).to.equal(certificateId);
-  });
-
-  it("Should revert if the certificate already exists", async function () {
-    // Register the certificate for the first time
-    const certificateId = 123;
-    await landSure.registerCertificate(certificateId, "John Doe", "Location", 5000);
+    // Call the transaction to register and mint tokens
+    const tx = await landSure.registerCertificate(
+      certId,
+      owner.address,
+      totalArea,
+      numTokens,
+      hash
+    );
+    await tx.wait();
     
-    // Try to register the same certificate again
+    // Fetch the certificate to get the minted token IDs
+    const [,,, , , tokenIds] = await landSure.getCertificate(certId);
+
+    // Assuming at least one token was minted, get the first one
+    const firstTokenId = tokenIds[0];
+
+    // Grab the token using the getToken view function
+    const [id, cert, currentOwner, burned] = await landSure.getToken(firstTokenId);
+
+    // Assertions
+    expect(cert).to.equal(certId);
+    expect(currentOwner).to.equal(owner.address);
+    expect(burned).to.equal(false);
+  });
+
+  it("Should revert if certificate already exists", async function () {
+    const certId = "CERT-999";
+    const hash = ethers.keccak256(ethers.toUtf8Bytes("meta"));
+    await landSure.registerCertificate(certId, owner.address, "area", 1, hash);
+
     await expect(
-      landSure.registerCertificate(certificateId, "Jane Doe", "Another Location", 6000)
-    ).to.be.revertedWith("Certificate already exists");
+      landSure.registerCertificate(certId, owner.address, "area", 1, hash)
+    ).to.be.revertedWith("Certificate exists");
   });
 });
