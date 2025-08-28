@@ -6,7 +6,7 @@ from PIL import Image
 import io
 
 from util import preprocess_image, format_text, extract_text_line_by_line, extract_structured_info
-c
+
 app = Flask(__name__)
 CORS(app)  # Don't forget this for frontend API calls
 

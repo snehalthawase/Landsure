@@ -1,57 +1,201 @@
 <!-- client/index.html -->
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>LandSure - Certificate Upload</title>
+
+    
+    <meta charset="UTF-8">
+
+     <title>LandSure - Certificate Upload</title>
+
 </head>
+
 <body>
-  <h2>Upload Land Certificate</h2>
-  <form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="image" required />
-    <button type="submit">Upload & Verify</button>
-  </form>
 
-  <div id="extractedData"></div>
-<button id="verifyBtn" style="display:none;">Submit for Verification</button>
-<div id="verificationResult"></div>
+     <h2>Upload Land Certificate</h2>
+
+     <form id="uploadForm" enctype="multipart/form-data">
+
+         <input type="file" name="image" required />
+
+         <button type="submit">Upload & Verify</button>
+
+         </form>
 
 
-  <script>
-  let extractedData = null;
 
-  const form = document.getElementById('uploadForm');
-  const resultDiv = document.getElementById('extractedData');
-  const verifyBtn = document.getElementById('verifyBtn');
-  const verifyResult = document.getElementById('verificationResult');
+     <div id="extractedData"></div>
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const res = await fetch('http://localhost:5001/ocr', {
-      method: 'POST',
-      body: formData
-    });
-    extractedData = await res.json();
+    <button id="verifyBtn" style="display:none;">Submit for Verification</button>
 
-    resultDiv.innerHTML = `<pre>${JSON.stringify(extractedData, null, 2)}</pre>`;
-    verifyBtn.style.display = 'block';
-  });
+    <div id="verificationResult"></div>
 
-  verifyBtn.addEventListener('click', async () => {
-    const res = await fetch('http://localhost:3000/certificates/verify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(extractedData)
-    });
-    const data = await res.json();
-    verifyResult.innerHTML = data.verified
-      ? `<span style="color: green;">✅ Verified Certificate</span><pre>${JSON.stringify(data.data, null, 2)}</pre>`
-      : `<span style="color: red;">❌ Fraudulent or Tampered Document</span>`;
-  });
-</script>
+    <div id="bkForm" style="display:none;">
+
+         <h3>Finalize Blockchain Storage</h3>
+
+         <label>Total Area: <input type="text" id="totalArea" required></label><br>
+
+         <label>Number of Tokens: <input type="number" id="numTokens" required></label><br>
+
+         <button id="bkSubmitBtn">Submit to Blockchain</button>
+
+    </div>
+
+    <div id="bkResult"></div>
+
+
+
+
+
+
+
+    
+    <script>
+
+        let extractedData = null;
+
+
+
+        const form = document.getElementById('uploadForm');
+
+        const resultDiv = document.getElementById('extractedData');
+
+        const verifyBtn = document.getElementById('verifyBtn');
+
+        const verifyResult = document.getElementById('verificationResult');
+
+
+
+        form.addEventListener('submit', async (e) => {
+
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            const res = await fetch('http://localhost:5001/ocr', {
+
+                method: 'POST',
+
+                body: formData
+
+            });
+
+            extractedData = await res.json();
+
+
+
+            resultDiv.innerHTML = `<pre>${JSON.stringify(extractedData, null, 2)}</pre>`;
+
+            verifyBtn.style.display = 'block';
+
+        });
+
+
+
+        verifyBtn.addEventListener('click', async () => {
+
+            const res = await fetch('http://localhost:3000/certificates/verify', {
+
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json' },
+
+                body: JSON.stringify(extractedData)
+
+            });
+
+            const data = await res.json();
+
+
+
+            if (data.verified) {
+
+                verifyResult.innerHTML = `<span style="color: green;">✅ Verified Certificate</span><pre>${JSON.stringify(data.data, null, 2)}</pre>`;
+
+                document.getElementById('bkForm').style.display = 'block'; // show blockchain form
+
+            } else {
+
+                verifyResult.innerHTML = `<span style="color: red;">❌ Fraudulent or Tampered Document</span>`;
+
+            }
+
+        });
+
+
+
+        document.getElementById('bkSubmitBtn').addEventListener('click', async () => {
+
+            let areaInput = document.getElementById('totalArea').value; // e.g., "2.36 acres"
+
+            let numericArea = 0;
+
+
+
+            // Check if input includes "acres" and convert to m²
+
+            if (areaInput.toLowerCase().includes('acre')) {
+
+                let acres = parseFloat(areaInput); // extract numeric part
+
+                numericArea = Math.round(acres * 4046.86); // convert to m²
+
+            } else {
+
+                numericArea = parseInt(areaInput); // fallback: assume user entered numeric value directly
+
+            }
+
+
+
+            const payload = {
+
+                certificateId: extractedData.certificate_id, // from OCR/mock JSON
+
+                totalArea: document.getElementById('totalArea').value,
+
+                numberOfTokens: Number(document.getElementById('numTokens').value),
+
+                metadata: extractedData
+
+            };
+
+
+
+            const res = await fetch('http://localhost:3000/certificates/register', {
+
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json' },
+
+                body: JSON.stringify(payload)
+
+            });
+
+
+
+            const result = await res.json();
+
+            document.getElementById('bkResult').innerHTML = result.success
+
+                ? `<span style="color: green;">✅ Stored on Blockchain</span><br>Tx Hash: ${result.txHash}`
+
+                : `<span style="color: red;">❌ Failed: ${result.error}</span>`;
+
+        });
+
+
+
+
+
+    </script>
+
+
 
 </body>
+
 </html>
