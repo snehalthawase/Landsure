@@ -1,0 +1,438 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.header {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 150px;
+    height: 3.5rem;
+    background-image: url("Logo-New-Photoroom.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-buttons a {
+    font-size: 0.8rem;
+    color: rgb(141, 141, 249);
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.nav-buttons a:hover {
+    color: rgb(177, 177, 241);
+}
+
+#profile i {
+    margin-right: 5px;
+}
+
+.hero-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+body.has-fixed-header .hero-section {
+    margin-top: 4rem;
+}
+
+.hero-img {
+    width: 100%;
+    height: 400px;
+    background-image: url("hero.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.hero-controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.prop-search {
+    width: 400px;
+    height: 60px;
+    border: none;
+    border-radius: 25px;
+    padding: 0 50px 0 20px;
+    font-size: 1rem;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px; 
+    color: black;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.search-icon:hover {
+    color: rgb(65, 63, 63);
+}
+
+.lands {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.lands h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.filters {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.location select, .landType select, .price select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: white;
+    border: 2px solid rgba(26, 25, 25, 0.2);
+    border-radius: 40px;
+    font-size: 0.9rem;
+    color: black;
+    padding: 10px 45px 10px 20px; 
+    background-image: url("data:image/svg+xml,%3Csvg fill='%23575656' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center; 
+    background-size: 16px;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.custom input {
+    width: 200px;
+    height: 40px;
+    border: 2px solid rgba(26, 25, 25, 0.2);
+    border-radius: 40px;
+    padding: 0 50px 0 20px;
+    font-size: 1rem;
+}
+
+.filter-btns button {
+    flex: 1;
+    height: 40px;
+    border: none;
+    border-radius: 45px;
+    background-color: rgb(84, 84, 252);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 10px 0 10px;
+}
+
+#applyFilters:hover, #resetFilters:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.listings {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 40px;
+    font-size: 1.3rem;
+}
+
+.pagination button {
+    width: 8rem;
+    height: 40px;
+    border: none;
+    border-radius: 45px;
+    background-color: rgb(84, 84, 252);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 10px 0 10px;
+}
+
+.pagination button:disabled {
+    opacity: 0.3;
+}
+
+.card {
+    width: 20rem;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.landImg {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cardContent {
+    padding: 10px;
+}
+
+.card-heading {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.cardDetails {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.cardDetails p {
+    font-size: 1rem;
+    color: #444;
+    font-weight: 500;
+}
+
+.cardbtns {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.view, .contact {
+    flex: 1;
+    height: 35px;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 10px 0 10px;
+}
+
+.view:hover, .contact:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.view {
+    background: rgb(127, 127, 249);
+    color: #fff;
+    transition: 0.2s ease;
+}
+
+.view:hover {
+    background: rgb(100, 100, 241);
+}
+
+.contact {
+    background: #fff;
+    color: rgb(141, 141, 249);
+    transition: 0.2s ease;
+}
+
+.contact:hover {
+    background: rgb(141, 141, 249);
+    color: #fff;
+}
+
+.footer {
+    text-align: center;
+    padding-top: 10px;
+    background: #F9FAFB;
+    font-size: 14px;
+    color: #444;
+    padding-bottom: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.footer_logo {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #626465;
+}
+
+.footer_logo i {
+    color: rgb(141, 141, 249);
+}
+
+.info_socials {
+    width: 100%;
+    height: auto;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    border-bottom: 1px solid #626465;
+}
+
+.info {
+    min-width: 50%;
+    padding: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.info_header {
+    font-size: 2rem;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.info_para p {
+    text-align: left;
+    font-size: 0.76rem;
+    margin-bottom: 15px;
+}
+
+.socials {
+    min-width: 50%;
+    padding: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.socials_header {
+    font-size: 2rem;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.socials_para {
+    text-align: right;
+    font-size: 0.76rem;
+}
+
+.socials_para a {
+    text-decoration: none;
+    color: #1E3A8A;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.socials_para i {
+    margin-right: 6px;
+    margin-bottom: 15px;
+}
+
+.socials_para a:hover {
+    color: #10B981;
+}
+
+@media (max-width: 1285px) {
+    .filters {
+        gap: 1.5rem;
+    }
+    .view, .contact {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 1168px) {
+  .listings {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    width: 50%;
+  }
+}
+
+@media (max-width: 680px) {
+  .listings {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  .lands h2 {
+    font-size: 1.2rem;
+  }
+}
