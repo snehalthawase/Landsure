@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandSure - Register</title>
+    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="signin-form">
+        <div class="wrapper">
+            <form action="">
+                <h1 id="formTitle"></h1>
+
+                <div class="inputbox">
+                    <input type="text" id="username" name="username" placeholder="Enter your name" required>
+                    <i class="fa-solid fa-user symbol"></i>
+                </div>
+
+                <div class="inputbox">
+                    <input type="tel" id="contact" name="contact" placeholder="Contact number" pattern="[0-9]{10}" required>
+                    <i class="fa-solid fa-phone symbol"></i>
+                </div>
+
+                <div class="inputbox">
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <i class="fa-solid fa-envelope symbol"></i>
+                </div>
+
+                <div class="inputbox">
+                    <input type="password" id="password-input" name="password" placeholder="Password" required>
+                    <i class="fa-solid fa-lock symbol"></i>
+                </div>
+                <div class="inputbox">
+                    <select id="govt_id" name="id_selection" required>
+                        <option value="">Select Government ID Type</option>
+                        <option value="Aadhar">Aadhar card</option>
+                        <option value="pan">Pan card</option>
+                        <option value="passport">Passport</option>
+                    </select>
+                </div>
+                <div class="inputbox">
+                    <input type="text" name="govt_id_num" placeholder="Government ID number" required>
+                    <i class="fa-solid fa-id-card-clip symbol" style="color: #111212;"></i>
+                </div>
+                <div class="inputbox">
+                    <select id="govt_id" name="id_selection" required>
+                        <option value="">Select Account Type</option>
+                        <option value="Aadhar">Buyer</option>
+                        <option value="pan">Seller</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="signin-btn">Sign In</button><br>
+
+                <div class="or">
+                    <p id="_or">or</p>
+                    <div id="g_id_onload"
+                    data-client_id="662592320155-fd80musmpf28f1hqm8kv9r9532n4dl15.apps.googleusercontent.com"
+                    data-login_uri="http://localhost:3000/auth/google/callback"
+                    data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin" 
+                    data-type="standard"
+                    data-shape="rectangular"
+                    data-theme="outline"
+                    data-text="signin_with"
+                    data-size="large">
+                    </div>
+                </div>
+
+                <div class="register-link">
+                    <p>Already have an account? <a href="login.html">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+</html>

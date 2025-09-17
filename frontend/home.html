@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandSure.com</title>
+    <link rel="icon" type="image/png" href="Logo-New-Photoroom.png">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" 
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <script src="price.js"></script>
+    <div class="header">
+        <div class="navbar">
+            <div class="nav-logo">
+                <a href="home.html"><div class="logo"></div></a>
+            </div>
+            <div class="nav-buttons">
+                <a href="">Saved Listings</a>
+                <a href="#newLands">New Listings</a>
+                <a href="">History</a>
+                <a href="" id="profile"><i class="fa-solid fa-user" style="color: black;"></i>Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <div class="hero-img"></div>
+        <div class="hero-controls">
+            <div class="search">
+                <input type="text" class="prop-search" placeholder="Enter your location">
+                <a href="" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="lands" id="newLands">
+    <h2>Recently listed & verified lands</h2>
+    <div class="filters">
+
+        <div class="location">
+            <select id="loc">
+                <option value="">Select Location</option>
+                <option>Mulshi</option>
+                <option>Punawale</option>
+                <option>Kanhe</option>
+                <option>Bendewadi</option>
+            </select>
+        </div>
+
+        <div class="price">
+            <select id="priceRange">
+                <option value="">Select Price Range</option>
+                <option value="500000-1000000">₹5 L – ₹10 L</option>
+                <option value="1000001-5000000">₹10 L – ₹50 L</option>
+                <option value="5000001-10000000">₹50 L – ₹1 CR</option>
+                <option value="10000001-50000000">₹1 CR – ₹5 CR</option>
+                <option value="50000001-100000000">₹5 CR – ₹10 CR</option>
+            </select>
+
+            <div class="custom">
+                <input type="number" id="minPrice" placeholder="Min Price (₹)">
+                <input type="number" id="maxPrice" placeholder="Max Price (₹)">
+            </div>
+        </div>
+
+        <div class="landType">
+            <select id="landType">
+                <option value="">Select land type</option>
+                <option>Agricultural land</option>
+                <option>Residential land</option>
+            </select>
+        </div>
+
+        <div class="filter-btns">
+            <button id="applyFilters">Apply filters</button>
+            <button id="resetFilters">Reset filters</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="listings"></div>
+
+<div class="pagination">
+    <button id="prevPage">Prev</button>
+    <span id="pageInfo"></span>
+    <button id="nextPage">Next</button>
+</div>
+
+<script>
+const locSelect = document.querySelector("#loc");
+const typeSelect = document.querySelector("#landType");
+const priceSelect = document.querySelector("#priceRange");
+const minPriceInput = document.querySelector("#minPrice");
+const maxPriceInput = document.querySelector("#maxPrice");
+const listingsContainer = document.querySelector(".listings");
+
+const applyBtn = document.querySelector("#applyFilters");
+const resetBtn = document.querySelector("#resetFilters");
+
+// Pagination state
+let currentPage = 1;
+const perPage = 4; 
+let allListings = []; 
+
+function formatPrice(price) {
+    if (price >= 10000000) return `₹${(price / 10000000).toFixed(2)} Cr`;
+    if (price >= 100000) return `₹${(price / 100000).toFixed(2)} L`;
+    return `₹${price}`;
+}
+
+async function loadListings({ applyFilters = false } = {}) {
+    let url = "http://localhost:5000/api/listings"; // fetch ALL once
+
+    if (applyFilters) {
+        let minPrice = minPriceInput.value;
+        let maxPrice = maxPriceInput.value;
+
+        if (!minPrice && !maxPrice && priceSelect.value) {
+            [minPrice, maxPrice] = priceSelect.value.split("-");
+        }
+
+        const location = locSelect.value || "All";
+        const type = typeSelect.value || "All";
+
+        url = `http://localhost:5000/api/listings?minPrice=${minPrice || 0}&maxPrice=${maxPrice || 100000000}&location=${location}&type=${type}`;
+    }
+
+    allListings = await fetch(url).then(res => res.json());
+    currentPage = 1; 
+    renderPage();
+}
+
+function renderPage() {
+    listingsContainer.innerHTML = "";
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
+    const pageListings = allListings.slice(start, end);
+
+    pageListings.forEach(listing => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <div class="landImg" style="background-image: url('${listing.imageUrl}')"></div>
+            <div class="cardContent">
+                <div class="card-heading"><p>${listing.title}</p></div>
+                <div class="cardDetails"><p>${formatPrice(listing.price)}</p><p>${listing.area}</p></div>
+                <div class="cardDetails"><p>${listing.type}</p></div>
+                <div class="cardbtns">
+                    <button class="view">View Details</button>
+                    <button class="contact">Contact Owner</button>
+                </div>
+            </div>
+        `;
+        listingsContainer.appendChild(card);
+    });
+
+    // Update pagination info
+    document.querySelector("#pageInfo").textContent =
+        `Page ${currentPage} of ${Math.ceil(allListings.length / perPage)}`;
+
+    // Enable/disable buttons
+    document.querySelector("#prevPage").disabled = currentPage === 1;
+    document.querySelector("#nextPage").disabled = end >= allListings.length;
+}
+
+// Apply filters
+applyBtn.addEventListener("click", () => loadListings({ applyFilters: true }));
+
+// Reset filters
+resetBtn.addEventListener("click", () => {
+    locSelect.value = "";
+    typeSelect.value = "";
+    priceSelect.value = "";
+    minPriceInput.value = "";
+    maxPriceInput.value = "";
+    loadListings(); 
+});
+
+// Pagination buttons
+document.querySelector("#prevPage").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+    }
+});
+
+document.querySelector("#nextPage").addEventListener("click", () => {
+    if (currentPage * perPage < allListings.length) {
+        currentPage++;
+        renderPage();
+    }
+});
+
+// Load default
+loadListings();
+</script>
+
+<div class="footer">
+    <div class="footer_logo">We will make <i>sure</i> to keep your land safe.</div>
+    <div class="info_socials">
+        <div class="info">
+            <div class="info_header">
+                <p>Our Aim</p>
+            </div>
+            <div class="info_para">
+                <p>Build a prototype using blockchain for safe property verification and ownership tracking.</p>
+                <p>Use OCR and a mock government database API to verify property details.</p>
+                <p>Convert verified properties into tokens and enable fractional ownership.</p>
+                <p>Ensure transparent and permanent ownership records with smart contracts.</p>
+            </div>
+        </div>
+        <div class="socials">
+            <div class="socials_header">
+                <p>Our Socials</p>
+            </div>
+            <div class="socials_para">
+                <i class="fa-brands fa-instagram"></i><a href="">Instagram</a><br>
+                <i class="fa-brands fa-linkedin"></i><a href="">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+    <p>© 2025 LandSure. All Rights Reserved.</p>
+    <p>Secure • Decentralized • Tamper-Proof</p>
+</div>
+
+</body>
+</html>
