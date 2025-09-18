@@ -11,7 +11,7 @@
 
     <div class="login-form">
         <div class="wrapper">
-            <form action="">
+            <form action="" onsubmit="event.preventDefault(); window.location.href='register.html'">
                 <h1 id="formTitle"></h1>
 
                 <div class="inputbox">
@@ -67,6 +67,32 @@
         <!-- <p>© 2025 LandSure. All Rights Reserved.</p>
         <p>Secure • Decentralized • Tamper-Proof</p>
     </div> -->
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const username = document.getElementById('username').value;
+    const storedEmail = localStorage.getItem('email');
+    const storedUsername = localStorage.getItem('username');
+
+    // Simple mock "login" check
+    if(email === storedEmail && username === storedUsername) {
+        const accountType = localStorage.getItem('accountType');
+
+        if(accountType === "buyer") {
+            window.location.href = "home.html";
+        } else if(accountType === "seller") {
+            window.location.href = "index.html";
+        } else {
+            alert("Account type not found. Contact support.");
+        }
+    } else {
+        alert("Invalid login credentials");
+    }
+});
+
+    </script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>

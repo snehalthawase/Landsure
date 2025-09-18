@@ -10,7 +10,11 @@ const certificateSchema = new mongoose.Schema({
     totalArea: Number,
     numberofTokens: Number,
     certificateHash: String,
-    tokenIds:[String]
+    tokenIds:[String],
+    imageUrl:{
+        type:String,
+       
+    }
 });
 
 module.exports = mongoose.model("Certificate",certificateSchema);

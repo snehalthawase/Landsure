@@ -46,11 +46,12 @@
                     <i class="fa-solid fa-id-card-clip symbol" style="color: #111212;"></i>
                 </div>
                 <div class="inputbox">
-                    <select id="govt_id" name="id_selection" required>
-                        <option value="">Select Account Type</option>
-                        <option value="Aadhar">Buyer</option>
-                        <option value="pan">Seller</option>
-                    </select>
+                   <select id="account_type" name="account_type" required>
+                   <option value="">Select Account Type</option>
+                   <option value="buyer">Buyer</option>
+                   <option value="seller">Seller</option>
+</select>
+
                 </div>
 
                 <button type="submit" class="signin-btn">Sign In</button><br>
@@ -77,6 +78,30 @@
             </form>
         </div>
     </div>
+    <script>
+      document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const accountType = document.getElementById('account_type').value;
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+
+    if(!accountType) {
+        alert("Select account type");
+        return;
+    }
+
+    // Store user info in localStorage (mock)
+    localStorage.setItem('accountType', accountType);
+    localStorage.setItem('username', username);
+    localStorage.setItem('email', email);
+
+    // Redirect to login
+    window.location.href = 'login.html';
+});
+
+      </script>
+   
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
