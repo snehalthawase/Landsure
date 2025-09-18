@@ -11,10 +11,6 @@ const certificateSchema = new mongoose.Schema({
     numberofTokens: Number,
     certificateHash: String,
     tokenIds:[String],
-    imageUrl:{
-        type:String,
-       
-    }
 });
 
 module.exports = mongoose.model("Certificate",certificateSchema);
