@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandSure - Seller Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="seller.css">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="nav-logo">
+            <a href="seller.html"><div class="logo"></div></a>
+        </div>
+        <div class="nav-buttons">
+            <a href="#myListings">My Listings</a>
+            <a href="savedListing.html" id="savedListingsBtn">Add Listings</a>
+            <div class="logout">
+                <a href="profile.html" id="profileBtn"><i class="fa-solid fa-user" style="color: black;"></i> Profile</a>
+                <button id="logoutBtn" style="display: none;">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="hero-section">
+    <img src="NOW (1).png" class="hero-img" alt="Hero Image" />
+    <div class="hero-cards"></div>
+</div>
+
+<div class="usp" id="usp">
+    <div class="usp-img"></div>
+    <div class="usp-info">
+        <div class="usp-title">
+            <p>About LandSure</p>
+        </div>
+        <div class="aboutUs">
+            <p>LandSure helps sellers showcase their properties to a trusted audience. With verified listings, digital ownership recording, and blockchain-backed documentation, you can list your land confidently and reach buyers efficiently, reducing risks and ensuring smooth transactions.</p>
+        </div>
+        <div class="usp-btn">
+            <button class="btn-km">Know More</button>
+        </div>
+    </div>
+</div>
+
+<div class="myListings">
+    <div class="no-listings">
+        <img src="NOW (2).png" alt="No Listings">
+        <p>You don’t have any listings yet.</p>
+        <button id="showFormBtn" class="submit-btn">Add your first Listing</button>
+    </div>
+</div>
+
+<div class="addListing">
+    <p id="aL">Add New Listing</p>
+    <div class="wrapper">
+        <form id="listingForm" enctype="multipart/form-data">
+            <!-- Form fields here -->
+            <!-- Basic Info -->
+            <div class="basic-info">
+                <div class="fb-title"><p>Basic Information</p></div>
+                <div class="f-boxes">
+                    <div class="inputbox"><input type="text" name="title" placeholder="Land title" required></div>
+                    <div class="inputbox"><input type="text" name="location" placeholder="Location" required></div>
+                    <div class="inputbox"><input type="number" name="price" placeholder="Price (₹)" required></div>
+                    <div class="inputbox"><input type="text" name="area" placeholder="Area (e.g., 500 sq.m)" required></div>
+                    <div class="inputbox">
+                        <select name="type" required>
+                            <option value="">Select Land Type</option>
+                            <option value="Agricultural">Agricultural</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Info -->
+            <div class="extra-info">
+                <div class="fb-title"><p>Extra Information</p></div>
+                <div class="f-boxes">
+                    <div class="inputbox"><input type="text" name="direction" placeholder="Direction"></div>
+                    <div class="inputbox"><input type="text" name="soil" placeholder="Soil Type"></div>
+                    <div class="inputbox"><input type="text" name="water" placeholder="Water Access Info"></div>
+                    <div class="inputbox"><input type="text" name="legal" placeholder="Legal Status"></div>
+                </div>
+            </div>
+
+            <!-- Owner Info -->
+            <div class="owner-info">
+                <div class="fb-title"><p>Personal Information</p></div>
+                <div class="f-boxes">
+                    <div class="inputbox"><input type="text" name="ownerName" placeholder="Owner Name"></div>
+                    <div class="inputbox"><input type="tel" name="ownerContact" placeholder="Owner Contact Number"></div>
+                    <div class="inputbox"><input type="email" name="ownerEmail" placeholder="Owner Email"></div>
+                    <div class="inputbox"><input type="text" name="ownerAddress" placeholder="Owner Address"></div>
+                    <div class="inputbox"><input type="text" name="ownerNotes" placeholder="Additional Owner Notes"></div>
+                </div>
+            </div>
+
+            <!-- Environmental Info -->
+            <div class="env-info">
+                <div class="fb-title"><p>Environmental Information</p></div>
+                <div class="f-boxes">
+                    <div class="inputbox"><input type="text" name="landmarks" placeholder="Nearby Landmarks"></div>
+                    <div class="inputbox"><input type="text" name="roadDistance" placeholder="Distance from Main Road"></div>
+                    <div class="inputbox"><input type="text" name="envNotes" placeholder="Environmental Notes"></div>
+                    <div class="inputbox"><input type="text" name="devPotential" placeholder="Development Potential"></div>
+                    <div class="inputbox"><textarea name="description" placeholder="Property Description"></textarea></div>
+                    <div class="inputbox"><input type="file" name="image" accept="image/*" required></div>
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="map">
+                <div class="fb-title"><p>Map Co-ordinates</p></div>
+                <div class="f-boxes">
+                    <div class="inputbox"><input type="number" step="0.000001" name="latitude" placeholder="Latitude"></div>
+                    <div class="inputbox"><input type="number" step="0.000001" name="longitude" placeholder="Longitude"></div>
+                </div>
+            </div>
+
+            <!-- <div class="inputbox">
+                <label><input type="checkbox" name="isFeatured"> Mark as Featured Listing</label>
+            </div>
+            <div class="inputbox"><input type="number" name="featuredPaidAmount" placeholder="Featured Paid Amount (if any)"></div> -->
+
+            <button type="submit" class="submit-btn">Submit Listing</button>
+        </form>
+    </div>
+</div>
+
+<div class="faq">
+        <div class="gfaq">
+            <div class="faqTitle">
+                <h2>General FAQs</h2>
+            </div>
+            <div class="faqboxes">
+                <div class="faqBox">
+                    <p class="faqQ">What is LandSure?</p>
+                    <p class="faqA">LandSure is a platform where buyers and sellers can connect to list and discover properties easily.</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">Do I need an account to use LandSure?</p>
+                    <p class="faqA">You can browse listings without an account, but you'll need to register to save and buy properties or create listings.</p>
+                </div>
+            </div>
+        </div>
+        <div class="bfaq">
+            <div class="faqTitle">
+                <h2>Buyer FAQs</h2>
+            </div>
+            <div class="faqboxes">
+                <div class="faqBox">
+                    <p class="faqQ">How do I search for properties?</p>
+                    <p class="faqA">Use the search bar to filter by location, type, or price range.</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">Can I contact the seller directly?</p>
+                    <p class="faqA">Yes, after logging in, you can view the seller's contact details on the property page.</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">Are the listed lands verified?</p>
+                    <p class="faqA">Yes. Every land listing added to LandSure goes through a verification process.</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">Do I need to pay anything to browse listings?</p>
+                    <p class="faqA">No. Browsing and searching for lands on LandSure is completely free.</p>
+                </div>
+            </div>
+        </div>
+        <div class="sfaq">
+            <div class="faqTitle">
+                <h2>Seller FAQs</h2>
+            </div>
+            <div class="faqboxes">
+                <div class="faqBox">
+                    <p class="faqQ">How do I sell my property?</p>
+                    <p class="faqA">After registering as a seller, click “Add Listing” and fill in the required details (title, location, price, images, etc.).</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">Is there a fee for listing my property?</p>
+                    <p class="faqA">Currently listing is free (you can later decclasse if you want to add premium options like featured listings).</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">Can I edit or remove my listing?</p>
+                    <p class="faqA">Yes, you can manage your listings anytime from your account dashboard.</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">How long does it take for my land listing to go live?</p>
+                    <p class="faqA">Once you submit your listing, it is verified using OCR and basic checks. Approved listings usually go live within a few minutes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="tfaq">
+            <div class="faqTitle">
+                <h2>Technical & Security FAQs</h2>
+            </div>
+            <div class="faqboxes">
+                <div class="faqBox">
+                    <p class="faqQ">How does blockchain help in real estate?</p>
+                    <p class="faqA">Blockchain can provclasse secure and transparent property records. In future updates, LandSure plans to integrate blockchain for tamper-proof ownership history and transaction verification.</p>
+                </div>
+                <div class="faqBox">
+                    <p class="faqQ">How does the verification process work?</p>
+                    <p class="faqA">Every uploaded land document is scanned using OCR (Optical Character Recognition) to extract key details like owner name, survey number, and location. These details are then cross-checked with government records and verified for authenticity before the listing is approved.</p>
+                </div>
+                <div class="faqBox" id="last">
+                    <p class="faqQ">Is my government ID safe when I upload it?</p>
+                    <p class="faqA">Yes. IDs are encrypted and only used for verification purposes. We do not share or sell this data</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.querySelectorAll(".faqQ").forEach(q => {
+        q.addEventListener("click", () => {
+            const answer = q.nextElementSibling;
+            q.classList.toggle("active");
+
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + "px"; 
+            }
+        });
+    });
+    </script>
+
+<div class="footer">
+        <div class="links">
+            <div class="properties">
+                <div class="f-Title">
+                    <p>Properties in Pune</p>
+                </div>
+                <div class="f-list">
+                    <a href="">Hinjewadi</a>
+                    <a href="">Baner</a>
+                    <a href="">Balewadi</a>
+                    <a href="">Ravet</a>
+                    <a href="">Talegaon</a>
+                    <a href="">Punawale</a>
+                    <a href="">Mulshi</a>
+                    <a href="">Bendewadi</a>
+                    <a href="">Kharadi</a>
+                    <a href="">Lavasa</a>
+                </div>
+            </div>
+            <div class="types">
+                <div class="f-Title">
+                    <p>Types of lands</p>
+                </div>
+                <div class="f-list">
+                    <a href="">Agricultural</a>
+                    <a href="">Residential</a>
+                    <a href="">Commercial</a>
+                </div>
+            </div>
+            <div class="fabout">
+                <div class="f-Title">
+                    <p>About Us</p>
+                </div>
+                <div class="f-list">
+                    <a href="">About LandSure</a>
+                    <a href="">Aim</a>
+                    <a href="">Contact us</a>
+                    <a href="">Terms and Conditions</a>
+                    <a href="">Founders</a>
+                    <a href="">Privacy Policy</a>
+                    <a href="">Technology used</a>
+                </div>
+            </div>
+            <div class="resources">
+                <div class="f-Title">
+                    <p>Resources</p>
+                </div>
+                <div class="f-list">
+                    <a href="">FAQs</a>
+                    <a href="">Blog</a>
+                    <a href="">Guides</a>
+                    <a href="">News & Updates</a>
+                </div>
+            </div>
+        </div>
+        <div class="tagAndSocials">
+            <div class="tag">
+                <p>We will make <i>sure</i> to keep your land safe!</p>
+            </div>
+            <div class="followUs">
+                <div class="followUsTitle">
+                    <p>Follow Us</p>
+                </div>
+                <div class="icons">
+                    <div class="icon">
+                        <a href=""><i class="fa-brands fa-instagram insta"></i></a>
+                    </div>
+                    <div class="icon">
+                        <a href=""><i class="fa-brands fa-x-twitter x"></i></a>
+                    </div>
+                    <div class="icon">
+                        <a href=""><i class="fa-brands fa-linkedin linkedIn"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 LandSure. All Rights Reserved</p>
+        </div>
+    </div>
+
+<script>
+// Toggle Add Listing Form
+const showFormBtn = document.getElementById("showFormBtn");
+const addListingForm = document.querySelector(".addListing");
+showFormBtn.addEventListener("click", () => {
+    addListingForm.style.display = "block";
+    addListingForm.scrollIntoView({ behavior: "smooth" });
+});
+
+// Add Listing Form Submit
+document.getElementById("listingForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) { alert("Please log in first."); return; }
+
+        const res = await fetch("http://localhost:5000/api/listings", {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("Listing added successfully!");
+            form.reset();
+            loadMyListings();
+        } else {
+            alert("Error: " + (data.error || "Something went wrong"));
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Failed to add listing.");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const logoutBtn = document.querySelector("#logoutBtn");
+    const profileBtn = document.querySelector("#profileBtn");
+    const savedListingsBtn = document.querySelector("#savedListingsBtn");
+    const historyBtn = document.querySelector("#historyBtn");
+
+    const token = localStorage.getItem("token");
+    const accountType = localStorage.getItem("account_type");
+    const expiry = localStorage.getItem("token_expiry");
+
+    // Auto logout if token expired
+    if (token && expiry && Date.now() > parseInt(expiry)) {
+        localStorage.clear();
+        alert("Your session has expired. Please login again.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (accountType === "Buyer") {
+        alert("Buyers cannot access this page. Redirecting to seller dashboard.");
+        window.location.href = "home.html";
+        return;
+    }
+
+    // Navbar update logic
+    function updateNavbar() {
+        const username = localStorage.getItem("username");
+        if (token) {
+            profileBtn.innerHTML = `<i class="fa-solid fa-user" style="color: black;"></i> Hi, ${username}`;
+            logoutBtn.style.display = "inline-block";
+            logoutBtn.classList.add("logout");
+            if (savedListingsBtn) savedListingsBtn.style.display = "inline-block";
+            if (historyBtn) historyBtn.style.display = "inline-block";
+        } else {
+            profileBtn.textContent = "Login";
+            profileBtn.href = "login.html";
+            logoutBtn.style.display = "none";
+            if (savedListingsBtn) savedListingsBtn.style.display = "none";
+            if (historyBtn) historyBtn.style.display = "none";
+        }
+    }
+
+    // Logout action
+    logoutBtn.addEventListener("click", () => {
+        localStorage.clear();
+        updateNavbar();
+        window.location.href = "login.html";
+    });
+
+    // Token expiry check
+    function checkTokenExpiry() {
+        const expiry = localStorage.getItem("token_expiry");
+        if (!expiry) return;
+        if (Date.now() > parseInt(expiry)) {
+            localStorage.clear();
+            alert("Your session has expired. Please login again.");
+            window.location.href = "login.html";
+        }
+    }
+
+    updateNavbar();
+    checkTokenExpiry();
+});
+
+async function loadRandomLands() {
+    try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("http://localhost:5000/api/listings/random-lands", {
+            headers: token ? { "Authorization": `Bearer ${token}` } : {}
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch random lands");
+
+        const lands = await res.json();
+        const container = document.querySelector(".hero-cards");
+        container.innerHTML = ""; // clear old ones
+
+        if (!lands.length) {
+            container.innerHTML = "<p>No featured lands available at the moment.</p>";
+            return;
+        }
+
+        lands.forEach(land => {
+            const card = document.createElement("div");
+            card.classList.add("hero-card");
+
+            const imgUrl = land.imageUrl.startsWith("http")
+                ? land.imageUrl
+                : `http://localhost:5000${land.imageUrl}`;
+
+            card.style.backgroundImage = `url(${imgUrl})`;
+
+            const text = document.createElement("span");
+            text.classList.add("hero-text");
+            text.textContent = land.title || "Untitled";
+
+            card.appendChild(text);
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error("Error loading random lands:", err);
+        const container = document.querySelector(".hero-cards");
+        container.innerHTML = "<p>Unable to load featured lands.</p>";
+    }
+}
+
+loadRandomLands();
+
+// Load Seller Listings
+// Load Seller Listings
+async function loadMyListings() {
+    try {
+        const token = localStorage.getItem("token");
+        const container = document.querySelector(".myListings");
+        container.innerHTML = "<h2>My Listings</h2>";
+
+        if (!token) {
+            container.innerHTML += "<p>Please log in to see your listings.</p>";
+            return;
+        }
+
+        const res = await fetch("http://localhost:5000/api/listings/my-listings", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const listings = await res.json();
+
+        if (!listings.length) {
+            container.innerHTML += `
+                <div class="no-listings">
+                    <img src="NOW (2).png" alt="No Listings">
+                    <p>You don’t have any listings yet.</p>
+                </div>
+            `;
+        } else {
+            listings.forEach(listing => {
+                const imgUrl = listing.imageUrl?.startsWith("http")
+                    ? listing.imageUrl
+                    : `http://localhost:5000${listing.imageUrl}`;
+
+                const card = document.createElement("div");
+                card.classList.add("card");
+
+                card.innerHTML = `
+                    <div class="landImg" style="background-image: url('${imgUrl}')"></div>
+                    <div class="cardContent">
+                        <div class="card-heading"><p>${listing.title}</p></div>
+                        <div class="cardDetails"><p>₹${listing.price}</p><p>${listing.area}</p></div>
+                        <div class="cardDetails"><p>${listing.type}</p></div>
+                        <div class="cardbtns">
+                            <button class="view" data-id="${listing._id}">View Details</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        const addBtn = document.createElement("button");
+        addBtn.id = "showFormBtn";
+        addBtn.className = "add-btn";
+        addBtn.style.marginTop = "20px";
+        addBtn.textContent = "Add New Listing";
+        addBtn.addEventListener("click", () => {
+            document.querySelector(".addListing").style.display = "block";
+            document.querySelector(".addListing").scrollIntoView({ behavior: "smooth" });
+            document.querySelector(".add-btn").style.display = "none";
+        });
+        container.appendChild(addBtn);
+
+    } catch (err) {
+        console.error("Error loading my listings:", err);
+    }
+}
+
+document.addEventListener("click", (e) => {
+    const viewBtn = e.target.closest(".view");
+    if (!viewBtn) return;
+console.log("View Details clicked!"); // <-- check if this prints
+    const listingId = viewBtn.dataset.id;
+    console.log(listingId); // <-- check if ID is valid
+
+    if (!listingId) {
+        console.warn("No data-id on this button!");
+        return;
+    }
+
+    // Redirect
+    window.location.href = `details.html?id=${listingId}`;
+});
+
+// On load
+document.addEventListener("DOMContentLoaded", loadMyListings);
+</script>
+
+</body>
+</html>
